@@ -1,0 +1,40 @@
+package site.peterdev.conversor.service;
+
+import org.springframework.stereotype.Service;
+
+@Service
+public class LongitudService {
+
+    public double convertir(double valor, String desde, String hacia) {
+        double valorEnMetros = convertirAMetros(valor, desde);
+        return convertirDesdeMetros(valorEnMetros, hacia);
+    }
+
+    private double convertirAMetros(double valor, String unidad) {
+        return switch (unidad.toLowerCase()) {
+            case "mm" -> valor / 1000;
+            case "cm" -> valor / 100;
+            case "m" -> valor;
+            case "km" -> valor * 1000;
+            case "in" -> valor * 0.0254;
+            case "ft" -> valor * 0.3048;
+            case "yd" -> valor * 0.9144;
+            case "mi" -> valor * 1609.34;
+            default -> throw new IllegalArgumentException("Unidad no válida: " + unidad);
+        };
+    }
+
+    private double convertirDesdeMetros(double valor, String unidad) {
+        return switch (unidad.toLowerCase()) {
+            case "mm" -> valor * 1000;
+            case "cm" -> valor * 100;
+            case "m" -> valor;
+            case "km" -> valor / 1000;
+            case "in" -> valor / 0.0254;
+            case "ft" -> valor / 0.3048;
+            case "yd" -> valor / 0.9144;
+            case "mi" -> valor / 1609.34;
+            default -> throw new IllegalArgumentException("Unidad no válida: " + unidad);
+        };
+    }
+}
